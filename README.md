@@ -6,6 +6,22 @@ Para fazer o gerenciamento de conteúdos (CRUD) nosso backend utilizará o segui
 
 ![Image](bd.png)
 
+## Como cadastrar os conteúdos com vídeos do Youtube
+A coluna con_youtubeid deverá armazenar o id do vídeo no YouTube, com esse id iremos conseguir gerar a imagem de capa do nosso conteúdo e também incorporar o vídeo quando o usuário clicar em ‘Assistir’. O id acima representa o parâmetro na url que o YouTube utiliza para disponibilizar os conteúdos em seu site. Por exemplo, veja seguinte URL abaixo:
+
+https://www.youtube.com/watch?v=GDlkCkcIqTs
+A rota /watch recebe via query string no parâmetro ‘v’ um valor. Esse valor (em negrito) é o id do nosso vídeo que será armazenado no nosso banco de dados.
+
+https://i.ytimg.com/vi/[id]/hqdefault.jpg -> https://i.ytimg.com/vi/GDlkCkcIqTs/hqdefault.jpg
+ 
+O YouTube também disponibiliza a URL para incorporação de vídeos, veja abaixo:
+
+https://www.youtube.com/embed/[id]?autoplay=1 https://www.youtube.com/embed/GDlkCkcIqTs?autoplay=1
+
+Com essa URL de incorporação, podemos utilizá-la na tag <iframe></iframe> do HTML, confira abaixo um exemplo de como ficaria o resultado final para que o vídeo seja exibido ao usuário:
+
+<iframe width="560" height="315" allow='autoplay' src="https://www.youtube.com/embed/GDlkCkcIqTs?autoplay=1"</iframe>
+
 ## Endpoints a serem implementados
 Para o gerenciamento de conteúdos a API deverá dispor dos seguintes endpoints:
 - Consultar de conteúdos (/conteudos) [GET]
@@ -13,3 +29,35 @@ Para o gerenciamento de conteúdos a API deverá dispor dos seguintes endpoints:
 - Alterar conteúdo (/conteudos) [PUT]
 - Deletar conteúdo (/conteudos/:id-exclusao) [DELETE]
 - Obter um conteudo (/conteudos/:id-conteudo) [GET]
+
+Além disso, outros endpoints devem ser implementados para:
+- Consultar categorias (/categorias) [GET]
+- Retornar HTML de vídeo incorporado (/conteudos/assistir/id-conteudo) [GET]
+- Retornar HTML da imagem capa do vídeo (/conteudos/capa/id-conteudo) [GET]
+
+A rota /assistir/id-conteudo deverá fazer o retorno de HTML com o link do vídeo no youtube. <br>
+Exemplo:
+```
+res.setHeader('Content-Type', 'text/html')
+res.send(`<iframe width="560" height="315" allow='autoplay' src="https://www.youtube.com/embed/GDlkCkcIqTs?autoplay=1"</iframe>`)
+```
+/conteudos/capa/id-conteudo
+```
+res.setHeader('Content-Type', 'text/html')
+res.send(`<img src="https://i.ytimg.com/vi/GDlkCkcIqTs/hqdefault.jpg"/>`)
+```
+<br><br>
+
+Além disso, implemente também uma autenticação via JWT para proteger todos os endpoints. O token da nossa API deverá ser gerado através da rota /auth/token. Faça o retorno do token através do corpo da resposta em uma propriedade chamada "chave".<br>
+Exemplo:<br>
+```
+{
+  chave: 12345  
+}
+```
+Todos esses endpoints deverão estar devidamente documentados em uma rota do sistema que deve se chamar /docs. A documentação deverá conter:</br>
+- Tag </br>
+- Sumário </br>
+- Parâmetros </br>
+- Códigos de retorno </br>
+- Esquema de segurança (Autenticação)</br>
