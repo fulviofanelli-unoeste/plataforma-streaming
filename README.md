@@ -1,64 +1,38 @@
-# Atividade 3 - Plataforma de Streaming
+# Atividade 2 - PFSII
+Nessa atividade iremos implementar uma API RESTful que consome uma outra API. Utilize o código disponibilizado para iniciar a codificação
 
-Crie um backend para uma plataforma de streaming que será consumida por uma aplicação frontend onde os usuários poderão assistir os conteúdos. A solução deve ser construída utilizando Node/Express.
-Para simularmos um repositório de conteúdos vamos  utilizar o YouTube, mas ao serem cadastrados na nossa base de dados, nós iremos acrescentar algumas informações a mais, por exemplo: título, categoria e disponibilidade. <br>
-Para fazer o gerenciamento de conteúdos (CRUD) nosso backend utilizará o seguinte modelo de banco de dados:
 
-![Image](bd.png)
+## Consumindo uma API
+Através do Node podemos consumir uma API utilizando a função fetch e a keyword await. Conforme vimos durante a disciplina de fullstack I, a função fetch funciona no formato de Promises, então podemos utilizar async/await para aguardar a response e com ela realizar um response.json() para obter o corpo da resposta. Exemplo:</br>
+let response = await fetch('endereco-api-a-ser-consumida');</br>
+let dados = await response.json();
 
-## Como cadastrar os conteúdos com vídeos do Youtube
-A coluna con_youtubeid deverá armazenar o id do vídeo no YouTube, com esse id iremos conseguir gerar a imagem de capa do nosso conteúdo e também incorporar o vídeo quando o usuário clicar em ‘Assistir’. O id acima representa o parâmetro na url que o YouTube utiliza para disponibilizar os conteúdos em seu site. Por exemplo, veja seguinte URL abaixo:
 
-https://www.youtube.com/watch?v=GDlkCkcIqTs
-A rota /watch recebe via query string no parâmetro ‘v’ um valor. Esse valor (em negrito) é o id do nosso vídeo que será armazenado no nosso banco de dados.
+## Qual API vamos consumir?
+Para nossa atividade vamos utilizar a API que disponibiliza os dados da FIPE, a documentação pode ser encontrada abaixo: </br>
+https://documenter.getpostman.com/view/7064033/SWT5jMGk#0efe83b5-d24c-40f9-b85d-d83426953a5f</br>
 
-https://i.ytimg.com/vi/[id]/hqdefault.jpg -> https://i.ytimg.com/vi/GDlkCkcIqTs/hqdefault.jpg
- 
-O YouTube também disponibiliza a URL para incorporação de vídeos, veja abaixo:
+Como todos as consultas serão baseadas nessa API, sugiro que vocês façam a implementação de uma classe Adapter. Esse padrão é frequentemente utilizado quando precisamos fazer com que uma aplicação comunique-se com outra.<br>
+Dentro dessa classe Adapter vocês podem ter as propriedades e métodos que serão utilizados por quem quiser se comunicar com a API da tabela FIPE.<br>
+Veja um exemplo clicando no link abaixo:<br> 
+(https://gasparbarancelli.com/post/entendendo-o-padrao-de-projeto-adapter-em-java)
 
-https://www.youtube.com/embed/[id]?autoplay=1 https://www.youtube.com/embed/GDlkCkcIqTs?autoplay=1
-
-Com essa URL de incorporação, podemos utilizá-la na tag <iframe></iframe> do HTML, confira abaixo um exemplo de como ficaria o resultado final para que o vídeo seja exibido ao usuário:
-
-<iframe width="560" height="315" allow='autoplay' src="https://www.youtube.com/embed/GDlkCkcIqTs?autoplay=1"</iframe>
 
 ## Endpoints a serem implementados
-Para o gerenciamento de conteúdos a API deverá dispor dos seguintes endpoints:
-- Consultar de conteúdos (/conteudos) [GET]
-- Cadastrar conteúdo (/conteudos) [POST]
-- Alterar conteúdo (/conteudos) [PUT]
-- Deletar conteúdo (/conteudos/:id-exclusao) [DELETE]
-- Obter um conteudo (/conteudos/:id-conteudo) [GET]
 
-Além disso, outros endpoints devem ser implementados para:
-- Consultar categorias (/categorias) [GET]
-- Retornar HTML de vídeo incorporado (/conteudos/assistir/id-conteudo) [GET]
-- Retornar HTML da imagem capa do vídeo (/conteudos/capa/id-conteudo) [GET]
+- Consulta de marcas de carros (/marca)</br>
 
-A rota /assistir/id-conteudo deverá fazer o retorno de HTML com o link do vídeo no youtube. <br>
-Exemplo:
-```
-res.setHeader('Content-Type', 'text/html')
-res.send(`<iframe width="560" height="315" allow='autoplay' src="https://www.youtube.com/embed/GDlkCkcIqTs?autoplay=1"</iframe>`)
-```
-/conteudos/capa/id-conteudo
-```
-res.setHeader('Content-Type', 'text/html')
-res.send(`<img src="https://i.ytimg.com/vi/GDlkCkcIqTs/hqdefault.jpg"/>`)
-```
+- Consulta de modelos de uma determinada marca (/modelo/{marca})</br>
 
-Além disso, implemente também uma autenticação via JWT para proteger todos os endpoints. O token da nossa API deverá ser gerado através da rota /auth/token e retornado no corpo da resposta em uma propriedade chamada "chave".<br>
-Exemplo:<br>
-```
-{
-  chave: 12345  
-}
-```
-O middleware deverá fazer a validação através do cabeçalho da requisição (Utilize a propriedade req.headers.authorization)
+- Consulta de anos de um determinado modelo de uma determinada marca (/anos/{marca}/{modelo})</br>
 
-Todos esses endpoints deverão estar devidamente documentados em uma rota do sistema que deve se chamar /docs. A documentação deverá conter:</br>
+- Consulta de informações do ano de um determinado modelo de uma determinada marca (/info/{marca}/{modelo}/{ano})</br></br>
+
+Além disso, implemente também um esquema de segurança para proteger nossos endpoints. O token da nossa api deverá ser enviado via cabeçalho da requisição e validado para conferir se a requisição pode continuar ou não. O cabeçalho deverá se chamar obrigatoriamente "chaveapi" e o endpoint para gerar o token deverá ser /token
+
+Todos esses endpoints deverão estar devidamente documentados em uma rota do sistema que deve se chamar /documentacao. A documentação deverá conter:</br>
 - Tag </br>
 - Sumário </br>
 - Parâmetros </br>
 - Códigos de retorno </br>
-- Esquema de segurança (Autenticação)</br>
+- Autenticação</br>
