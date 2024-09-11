@@ -46,7 +46,6 @@ res.send(`<iframe width="560" height="315" allow='autoplay' src="https://www.you
 res.setHeader('Content-Type', 'text/html')
 res.send(`<img src="https://i.ytimg.com/vi/GDlkCkcIqTs/hqdefault.jpg"/>`)
 ```
-<br><br>
 
 Além disso, implemente também uma autenticação via JWT para proteger todos os endpoints. O token da nossa API deverá ser gerado através da rota /auth/token. Faça o retorno do token através do corpo da resposta em uma propriedade chamada "chave".<br>
 Exemplo:<br>
