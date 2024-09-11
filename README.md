@@ -6,4 +6,10 @@ Para fazer o gerenciamento de conteúdos (CRUD) nosso backend utilizará o segui
 
 ![Image](bd.png)
 
-
+## Endpoints a serem implementados
+Para o gerenciamento de conteúdos a API deverá dispor dos seguintes endpoints:
+- Consultar de conteúdos (/conteudos) [GET]
+- Cadastrar conteúdo (/conteudos) [POST]
+- Alterar conteúdo (/conteudos) [PUT]
+- Deletar conteúdo (/conteudos/:id-exclusao) [DELETE]
+- Obter um conteudo (/conteudos/:id-conteudo) [GET]
