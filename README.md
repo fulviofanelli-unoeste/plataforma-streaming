@@ -47,13 +47,15 @@ res.setHeader('Content-Type', 'text/html')
 res.send(`<img src="https://i.ytimg.com/vi/GDlkCkcIqTs/hqdefault.jpg"/>`)
 ```
 
-Além disso, implemente também uma autenticação via JWT para proteger todos os endpoints. O token da nossa API deverá ser gerado através da rota /auth/token. Faça o retorno do token através do corpo da resposta em uma propriedade chamada "chave".<br>
+Além disso, implemente também uma autenticação via JWT para proteger todos os endpoints. O token da nossa API deverá ser gerado através da rota /auth/token e retornado no corpo da resposta em uma propriedade chamada "chave".<br>
 Exemplo:<br>
 ```
 {
   chave: 12345  
 }
 ```
+O middleware deverá fazer a validação através do cabeçalho da requisição (Utilize a propriedade req.headers.authorization)
+
 Todos esses endpoints deverão estar devidamente documentados em uma rota do sistema que deve se chamar /docs. A documentação deverá conter:</br>
 - Tag </br>
 - Sumário </br>
