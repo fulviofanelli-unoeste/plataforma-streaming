@@ -32,8 +32,8 @@ Para o gerenciamento de conteúdos a API deverá dispor dos seguintes endpoints:
 
 Além disso, outros endpoints devem ser implementados para:
 - Consultar categorias (/categorias) [GET]
-- Retornar HTML de vídeo incorporado (/conteudos/assistir/id-conteudo) [GET]
-- Retornar HTML da imagem capa do vídeo (/conteudos/capa/id-conteudo) [GET]
+- Retornar HTML de vídeo incorporado (/conteudos/assistir/:id-conteudo) [GET]
+- Retornar HTML da imagem capa do vídeo (/conteudos/capa/:id-conteudo) [GET]
 
 A rota /assistir/id-conteudo deverá fazer o retorno de HTML com o link do vídeo no youtube. <br>
 Exemplo:
