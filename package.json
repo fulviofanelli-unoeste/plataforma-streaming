@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node swagger.js",
     "dev": "node --es-module-specifier-resolution=node server.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit"
   },
   "name": "pfs2",
   "version": "1.0.0",
